@@ -1,18 +1,21 @@
 name: list-changes
+
 on: 
   push:
     branches:
-          - main
+      - main
+
 jobs:
   my-job:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
-            fetch-depth: 0
+          fetch-depth: 0
         
       - name: List all changed files
+        if: github.ref == 'refs/heads/main'  # Condition to run only on main branch
         run: |
-          commit=`git rev-parse HEAD`
+          commit=$(git rev-parse HEAD)
           echo $commit
           git diff-tree --no-commit-id --name-only $commit -r
